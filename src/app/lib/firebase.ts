@@ -5,7 +5,8 @@ import { getFirestore } from 'firebase-admin/firestore';
 import { getStorage } from 'firebase-admin/storage';
 
 const decodedKey = Buffer.from(
-  process.env.FIREBASE_PRIVATE_KEY_BASE_64!,
+  process.env.FIREBASE_PRIVATE_KEY_BASE64!,
+  'base64',
 ).toString('utf-8');
 
 export const firebaseCert = cert({
@@ -17,9 +18,10 @@ export const firebaseCert = cert({
 if (!getApps().length) {
   initializeApp({
     credential: firebaseCert,
-    storageBucket: '',
+    storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
   });
 }
 
 export const db = getFirestore();
+
 export const storage = getStorage().bucket();
