@@ -3,6 +3,7 @@ import { Plus } from 'lucide-react';
 import { UserCard } from '@/app/components/commons/UserCard';
 import { ProjectCard } from '@/app/components/commons/ProjectCard';
 import { TotalVisits } from '@/app/components/commons/TotalVisits';
+import Link from 'next/link';
 
 export default async function Profile({
   params,
@@ -14,10 +15,12 @@ export default async function Profile({
   return (
     <div className="relative h-screen flex p-20 overflow-hidden">
       <div className="fixed top-0 left-0 w-full flex justify-center items-center gap-1 py-2 bg-background-tertiary">
-        <span>Você está usando a versão trial.</span>
-        <button className="text-accent-green font-bold">
-          Faça o upgrade agora!
-        </button>
+        <Link href={`/${profileId}/upgrade`}>
+          <span>Você está usando a versão trial.</span>
+          <button className="text-accent-green font-bold">
+            Faça o upgrade agora!
+          </button>
+        </Link>
       </div>
       <div className="w-1/2 flex justify-center h-min">
         <UserCard />
