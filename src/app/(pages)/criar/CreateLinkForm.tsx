@@ -2,6 +2,8 @@
 
 import { ChangeEvent, FormEvent, useState } from 'react';
 
+import { useRouter } from 'next/navigation';
+
 import { sanitizeLink } from '@/app/lib/utils';
 
 import { verifyLink } from '@/app/actions/verify-link';
@@ -9,7 +11,6 @@ import { createLink } from '@/app/actions/create-link';
 
 import { Button } from '@/app/components/ui/Button';
 import { TextInput } from '@/app/components/ui/TextInput';
-import { useRouter } from 'next/navigation';
 
 export function CreateLinkForm() {
   const [link, setLink] = useState('');

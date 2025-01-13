@@ -1,9 +1,14 @@
-import { Plus } from 'lucide-react';
+import { notFound } from 'next/navigation';
+
+import Link from 'next/link';
+
+import { auth } from '@/app/lib/auth';
 
 import { UserCard } from '@/app/components/commons/UserCard';
+import { getProfileData } from '@/app/server/get-profile-data';
 import { ProjectCard } from '@/app/components/commons/ProjectCard';
 import { TotalVisits } from '@/app/components/commons/TotalVisits';
-import Link from 'next/link';
+import { NewProject } from './NewProject';
 
 export default async function Profile({
   params,
@@ -11,6 +16,18 @@ export default async function Profile({
   params: Promise<{ profileId: string }>;
 }) {
   const { profileId } = await params;
+
+  const profileData = await getProfileData(profileId);
+
+  if (!profileData) return notFound();
+
+  // TODO: Get projects
+
+  const session = await auth();
+
+  const isOwner = profileData.userId === session?.user?.id;
+
+  //TODO: Verificar se usuário não está mais no trial
 
   return (
     <div className="relative h-screen flex p-20 overflow-hidden">
@@ -30,10 +47,8 @@ export default async function Profile({
         <ProjectCard />
         <ProjectCard />
         <ProjectCard />
-        <button className="w-[340px] h-[132px] rounded-[20px] bg-background-secondary flex items-center gap-2 justify-center hover:border hover:border-dashed border-border-secondary">
-          <Plus className="size-10 text-accent-green" />
-          <span>Novo projeto</span>
-        </button>
+
+        {isOwner && <NewProject profileId={profileId} />}
       </div>
       <div className="absolute bottom-6 right-0 left-0 w-min mx-auto">
         <TotalVisits />
