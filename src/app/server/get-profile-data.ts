@@ -1,4 +1,5 @@
 import 'server-only';
+
 import { db } from '../lib/firebase';
 
 export interface ProfileData {
