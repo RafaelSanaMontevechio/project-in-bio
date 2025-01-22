@@ -12,6 +12,7 @@ export interface ProfileData {
     instagram: string;
     linkedin: string;
     twitter: string;
+    [key: string]: string;
   };
   updatedAt?: number;
 }

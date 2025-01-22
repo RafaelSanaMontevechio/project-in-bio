@@ -1,6 +1,6 @@
 'use client';
 
-import { startTransition, useState } from 'react';
+import { JSX, startTransition, useState } from 'react';
 
 import { useParams, useRouter } from 'next/navigation';
 
@@ -36,6 +36,33 @@ export default function EditSocialLinks({
   const router = useRouter();
   const { profileId } = useParams();
 
+  const socialLinks = [
+    {
+      icon: <Github />,
+      placeholder: 'Link Github',
+      value: github,
+      onChange: setGithub,
+    },
+    {
+      icon: <Linkedin />,
+      placeholder: 'Link LinkedIn',
+      value: linkedin,
+      onChange: setLinkedin,
+    },
+    {
+      icon: <Instagram />,
+      placeholder: 'Link Instagram',
+      value: instagram,
+      onChange: setInstagram,
+    },
+    {
+      icon: <Twitter />,
+      placeholder: 'Link Twitter',
+      value: twitter,
+      onChange: setTwitter,
+    },
+  ];
+
   async function handleAddSocialLinks() {
     setIsSavingSocialLinks(true);
 
@@ -55,73 +82,64 @@ export default function EditSocialLinks({
       router.refresh();
     });
   }
+
+  function SocialInput({
+    icon,
+    placeholder,
+    value,
+    onChange,
+  }: {
+    icon: JSX.Element;
+    placeholder: string;
+    value: string;
+    onChange: (value: string) => void;
+  }) {
+    return (
+      <div className="flex items-center gap-2 w-full">
+        {icon}
+        <TextInput
+          type="text"
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          aria-label={placeholder}
+          className="flex-1"
+        />
+      </div>
+    );
+  }
+
   return (
-    <>
-      <button
-        onClick={() => setIsModalOpen(true)}
-        className="p-3 rounded-xl bg-[#1E1E1E] hover:bg-[#2E2E2E]"
-      >
-        <Plus />
-      </button>
-      <Modal isOpen={isModalOpen} setIsOpen={setIsModalOpen}>
-        <div className="bg-background-primary p-8 rounded-[20px] flex flex-col justify-between gap-10 w-[514px]">
-          <p className="text-white font-bold text-xl">
-            Adicionar redes sociais
-          </p>
-          <div className="flex flex-col gap-4">
-            <div className="flex items-center gap-2 w-full">
-              <Github />
-              <TextInput
-                type="text"
-                placeholder="Link Github"
-                value={github}
-                onChange={(e) => setGithub(e.target.value)}
-              />
-            </div>
-            <div className="flex items-center gap-2 w-full">
-              <Linkedin />
-              <TextInput
-                type="text"
-                placeholder="Link LinkedIn"
-                value={linkedin}
-                onChange={(e) => setLinkedin(e.target.value)}
-              />
-            </div>
-            <div className="flex items-center gap-2 w-full">
-              <Instagram />
-              <TextInput
-                type="text"
-                placeholder="Link Instagram"
-                value={instagram}
-                onChange={(e) => setInstagram(e.target.value)}
-              />
-            </div>
-            <div className="flex items-center gap-2 w-full">
-              <Twitter />
-              <TextInput
-                type="text"
-                placeholder="Link Twitter"
-                value={twitter}
-                onChange={(e) => setTwitter(e.target.value)}
-              />
-            </div>
-          </div>
-          <div className="flex gap-4 justify-end">
-            <button
-              onClick={() => setIsModalOpen(false)}
-              className="font-bold text-white"
-            >
-              Voltar
-            </button>
-            <Button
-              onClick={handleAddSocialLinks}
-              disabled={isSavingSocialLinks}
-            >
-              Salvar
-            </Button>
-          </div>
-        </div>
-      </Modal>
-    </>
+    <div className="bg-background-primary p-8 rounded-[20px] flex flex-col justify-between gap-10 w-[514px]">
+      <p className="text-white font-bold text-xl">Adicionar redes sociais</p>
+      <div className="flex flex-col gap-4">
+        {socialLinks.map(({ icon, placeholder, value, onChange }, index) => (
+          <SocialInput
+            key={index}
+            icon={icon}
+            placeholder={placeholder}
+            value={value}
+            onChange={onChange}
+          />
+        ))}
+      </div>
+      <div className="flex gap-4 justify-end">
+        <button
+          onClick={() => setIsModalOpen(false)}
+          className="font-bold text-white hover:underline focus:outline-none"
+        >
+          Voltar
+        </button>
+        <Button
+          onClick={handleAddSocialLinks}
+          disabled={isSavingSocialLinks}
+          className={`transition ${
+            isSavingSocialLinks ? 'opacity-50 cursor-not-allowed' : ''
+          }`}
+        >
+          Salvar
+        </Button>
+      </div>
+    </div>
   );
 }
