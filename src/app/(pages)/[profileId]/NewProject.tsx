@@ -6,12 +6,13 @@ import { ArrowUpFromLine, Plus } from 'lucide-react';
 
 import { useRouter } from 'next/navigation';
 
+import { compressFiles } from '@/app/lib/utils';
+import { createProject } from '@/app/actions/create-project';
+
 import { Modal } from '@/app/components/ui/Modal';
 import { Button } from '@/app/components/ui/Button';
 import { TextArea } from '@/app/components/ui/TextArea';
 import { TextInput } from '@/app/components/ui/TextInput';
-import { compressFiles } from '@/app/lib/utils';
-import { createProject } from '@/app/actions/create-project';
 
 export function NewProject({ profileId }: { profileId: string }) {
   const [isOpen, setIsOpen] = useState(false);
