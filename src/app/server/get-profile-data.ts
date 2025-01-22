@@ -7,6 +7,13 @@ export interface ProfileData {
   userId: string;
   TotalVisits: number;
   createdAt: number;
+  socialMedias?: {
+    github: string;
+    instagram: string;
+    linkedin: string;
+    twitter: string;
+  };
+  updatedAt?: number;
 }
 
 export interface ProjectData {

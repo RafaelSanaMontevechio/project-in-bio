@@ -3,16 +3,18 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 
 import { auth } from '@/app/lib/auth';
+import { getDownloadUrlFromPath } from '@/app/lib/firebase';
 
-import { UserCard } from '@/app/components/commons/UserCard';
 import {
   getProfileData,
   getProfileProjects,
 } from '@/app/server/get-profile-data';
+
+import { UserCard } from '@/app/components/commons/UserCard';
 import { ProjectCard } from '@/app/components/commons/ProjectCard';
 import { TotalVisits } from '@/app/components/commons/TotalVisits';
+
 import { NewProject } from './NewProject';
-import { getDownloadUrlFromPath } from '@/app/lib/firebase';
 
 export default async function Profile({
   params,
@@ -44,7 +46,7 @@ export default async function Profile({
         </Link>
       </div>
       <div className="w-1/2 flex justify-center h-min">
-        <UserCard />
+        <UserCard profileData={profileData} />
       </div>
       <div className="w-full flex justify-center content-start gap-4 flex-wrap overflow-y-auto">
         {projects.map(async (project) => (
@@ -52,7 +54,7 @@ export default async function Profile({
             key={project.id}
             project={project}
             isOwner={isOwner}
-            img={await getDownloadUrlFromPath(project.imagePath)}
+            img={(await getDownloadUrlFromPath(project.imagePath)) || ''}
           />
         ))}
 

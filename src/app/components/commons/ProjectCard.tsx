@@ -7,7 +7,7 @@ import { ProjectData } from '@/app/server/get-profile-data';
 interface ProjectCardProps {
   project: ProjectData;
   isOwner: boolean;
-  img?: string;
+  img: string;
 }
 
 export function ProjectCard({ project, isOwner, img }: ProjectCardProps) {
