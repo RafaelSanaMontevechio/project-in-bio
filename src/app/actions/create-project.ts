@@ -24,11 +24,12 @@ export async function createProject(formData: FormData) {
 
   try {
     await db
-      .collection('projects')
+      .collection('profiles')
       .doc(profileId)
       .collection('projects')
       .doc(generatedId)
       .set({
+        id: generatedId,
         userId: session.user?.id,
         projectName,
         projectDescription,

@@ -15,6 +15,7 @@ import { ProjectCard } from '@/app/components/commons/ProjectCard';
 import { TotalVisits } from '@/app/components/commons/TotalVisits';
 
 import { NewProject } from './NewProject';
+import { increaseProfileVisits } from '@/app/actions/increase-profile-visits';
 
 export default async function Profile({
   params,
@@ -32,6 +33,10 @@ export default async function Profile({
   const session = await auth();
 
   const isOwner = profileData.userId === session?.user?.id;
+
+  if (isOwner) {
+    await increaseProfileVisits(profileId);
+  }
 
   //TODO: Verificar se usuário não está mais no trial
 
@@ -60,9 +65,11 @@ export default async function Profile({
 
         {isOwner && <NewProject profileId={profileId} />}
       </div>
-      <div className="absolute bottom-6 right-0 left-0 w-min mx-auto">
-        <TotalVisits />
-      </div>
+      {isOwner && (
+        <div className="absolute bottom-6 right-0 left-0 w-min mx-auto">
+          <TotalVisits totalVisits={profileData.totalVisits} />
+        </div>
+      )}
     </div>
   );
 }

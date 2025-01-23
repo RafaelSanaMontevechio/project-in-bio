@@ -1,8 +1,10 @@
 'use client';
 
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
 import { ProjectData } from '@/app/server/get-profile-data';
+import { increaseProjectVisits } from '@/app/actions/increase-project-visits copy';
 
 interface ProjectCardProps {
   project: ProjectData;
@@ -16,8 +18,12 @@ export function ProjectCard({ project, isOwner, img }: ProjectCardProps) {
     ? projectUrl
     : `https://${projectUrl}`;
 
-  function handleClick() {
-    console.log('Clicou no card');
+  const { profileId } = useParams();
+
+  async function handleClick() {
+    if (!profileId || !project.id || isOwner) return;
+
+    await increaseProjectVisits(profileId as string, project.id);
   }
 
   return (
