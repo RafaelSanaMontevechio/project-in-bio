@@ -1,10 +1,12 @@
-import { TotalVisits } from '@/app/components/commons/TotalVisits';
 import 'server-only';
 
 import { db } from '../lib/firebase';
 
 export interface ProfileData {
   userId: string;
+  name: string;
+  description: string;
+  imagePath: string;
   TotalVisits: number;
   createdAt: number;
   socialMedias?: {
