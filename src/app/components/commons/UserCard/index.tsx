@@ -16,8 +16,8 @@ export async function UserCard({
   profileData,
   isOwner,
 }: {
-  profileData: ProfileData;
-  isOwner: boolean;
+  profileData?: ProfileData;
+  isOwner?: boolean;
 }) {
   const socialMediaLinks = [
     { id: 'github', icon: <Github /> },
@@ -51,7 +51,11 @@ export async function UserCard({
     <div className="w-[348px] flex flex-col gap-5 items-center p-5 border border-white border-opacity-10 bg-[#121212] rounded-3xl text-white">
       <div className="size-48">
         <img
-          src={(await getDownloadUrlFromPath(profileData.imagePath)) || ''}
+          src={
+            (profileData?.imagePath
+              ? await getDownloadUrlFromPath(profileData.imagePath)
+              : '') || ''
+          }
           alt="User Profile Image"
           className="rounded-full object-cover w-full h-full"
         />
@@ -59,19 +63,19 @@ export async function UserCard({
       <div className="flex flex-col gap-2 w-full">
         <div className="flex items-center gap-2">
           <h3 className="text-3xl font-bold min-h-0 overflow-hidden">
-            {profileData.name}
+            {profileData?.name}
           </h3>
           {isOwner && <EditUserCard />}
         </div>
         <p className="opacity-40">
-          {profileData.description || 'Eu faço produtos para a internet'}
+          {profileData?.description || 'Eu faço produtos para a internet'}
         </p>
       </div>
       <div className="flex flex-col gap-2 w-full">
         <span className="uppercase text-xs font-medium">Links</span>
         <div className="flex gap-3 justify-between">
           {socialMediaLinks.map(({ id, icon }) => {
-            const href = profileData.socialMedias?.[id];
+            const href = profileData?.socialMedias?.[id];
             return (
               href && (
                 <SocialLink
@@ -84,7 +88,7 @@ export async function UserCard({
             );
           })}
           {isOwner && (
-            <EditSocialLinks socialMedias={profileData.socialMedias} />
+            <EditSocialLinks socialMedias={profileData?.socialMedias} />
           )}
         </div>
 

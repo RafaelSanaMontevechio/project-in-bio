@@ -5,23 +5,30 @@ import { useParams } from 'next/navigation';
 
 import { ProjectData } from '@/app/server/get-profile-data';
 import { increaseProjectVisits } from '@/app/actions/increase-project-visits copy';
+import { formatUrl } from '@/app/lib/utils';
 
 interface ProjectCardProps {
-  project: ProjectData;
-  isOwner: boolean;
-  img: string;
+  project?: ProjectData;
+  isOwner?: boolean;
+  img?: string;
+  name?: string;
+  description?: string;
 }
 
-export function ProjectCard({ project, isOwner, img }: ProjectCardProps) {
-  const projectUrl = project.projectUrl;
-  const formattedUrl = projectUrl.startsWith('http')
-    ? projectUrl
-    : `https://${projectUrl}`;
+export function ProjectCard({
+  project,
+  isOwner,
+  img,
+  name,
+  description,
+}: ProjectCardProps) {
+  const projectUrl = project?.projectUrl;
+  const formattedUrl = formatUrl(project?.projectUrl || '');
 
   const { profileId } = useParams();
 
   async function handleClick() {
-    if (!profileId || !project.id || isOwner) return;
+    if (!profileId || !project?.id || isOwner) return;
 
     await increaseProjectVisits(profileId as string, project.id);
   }
@@ -35,13 +42,15 @@ export function ProjectCard({ project, isOwner, img }: ProjectCardProps) {
         <div className="flex flex-col gap-2">
           {isOwner && (
             <span className="uppercase text-xs font-bold text-accent-green">
-              {project.totalVisits ?? 0} Cliques
+              {project?.totalVisits ?? 0} Cliques
             </span>
           )}
           <div className="flex flex-col">
-            <span className="text-white font-bold">{project.projectName}</span>
+            <span className="text-white font-bold">
+              {name || project?.projectName}
+            </span>
             <span className="text-content-body text-sm">
-              {project.projectDescription}
+              {description || project?.projectDescription}
             </span>
           </div>
         </div>
