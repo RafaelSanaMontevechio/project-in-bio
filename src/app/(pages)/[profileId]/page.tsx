@@ -72,7 +72,7 @@ export default async function Profile({
       </div>
       {isOwner && (
         <div className="absolute bottom-6 right-0 left-0 w-min mx-auto">
-          <TotalVisits totalVisits={profileData.totalVisits} />
+          <TotalVisits totalVisits={profileData.totalVisits} showBar />
         </div>
       )}
     </div>
