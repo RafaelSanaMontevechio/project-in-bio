@@ -2,7 +2,7 @@
 
 import { ChangeEvent, FormEvent, useState } from 'react';
 
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 
 import { sanitizeLink } from '@/app/lib/utils';
 
@@ -13,7 +13,11 @@ import { Button } from '@/app/components/ui/Button';
 import { TextInput } from '@/app/components/ui/TextInput';
 
 export function CreateLinkForm() {
-  const [link, setLink] = useState('');
+  const searchParams = useSearchParams();
+
+  const [link, setLink] = useState(
+    sanitizeLink(searchParams.get('link') || ''),
+  );
   const [error, setError] = useState('');
 
   const router = useRouter();
