@@ -3,6 +3,12 @@ import { Rocket } from 'lucide-react';
 import { Header } from '@/app/components/landing-page/Header';
 
 import { CreateLinkForm } from './CreateLinkForm';
+import { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Project in bio - criar',
+  description: 'Project in bio description',
+};
 
 export default function CreatePage() {
   return (
